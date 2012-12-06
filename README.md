@@ -76,3 +76,17 @@ While you can manually review the validity dates, this script automates this usi
 * The $threshold variable specifies the number of days prior to expiration that will trigger an email notification to be sent; this is set to 60 days.
 
 Note the script requires you have PowerShell 2.0 deployed on the server.
+
+st-db-backup.ps1
+----------------
+
+A powershell script to dump / backup SecureTransport's embedded MySQL databases. In order to use the script you will need to change the following items to reflect your environment:
+
+* mysql_server_port - SecureTransport uses 33060 by default but if you changed this at installation time you will need to modify this variable
+* mysql_password - the default password is tumbleweed, this will need to be changed accordingly
+* backupstorefolder,latestbackupfolder,MySQLDumpErrorLog,Logfile - change the paths to reflect where you want the backups to be stored
+* pathtostinstall - change this to reflect the installation path for your SecureTransport installation
+* SMTPServer - change this to the SMTPServer you will be using for sending the email notifications
+* mailTo, mailFrom - to reflect the from and to email addresses to be used for your environment
+
+
