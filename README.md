@@ -90,3 +90,7 @@ A powershell script to dump / backup SecureTransport's embedded MySQL databases.
 * mailTo, mailFrom - to reflect the from and to email addresses to be used for your environment
 
 
+SecureTransport AV Module Startup Scripts
+-----------------------------------------
+
+The stavserver.config and stavservice are Linux (Sys-V) startup scripts for the SecureTransport McAfee Antivirus Scanning Module. For further information on it's use refer to the following blog article at [http://vijayjt.blogspot.com/2012/08/securetransport-antivirus-module.html](http://vijayjt.blogspot.com/2012/08/securetransport-antivirus-module.html)

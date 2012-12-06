@@ -1,0 +1,151 @@
+#!/bin/sh
+# chkconfig: 345 99 01
+# description: The SecureTransport Antivirus Service
+# config: /etc/sysconfig/stavserver.config
+#
+# Derived from -
+# URL: http://shrubbery.mynetgear.net/c/display/W/Java+Daemon+Startup+Script
+#
+# Notes:
+#	The ST AV Service will run in runlevel 3,4 and 5.
+#	It will start at the very end of the (S99) of the init run and terminate very early (K01) when leaving the runlevel
+# 
+# Change History:
+# 2012-07-21	Vijay Thakorlal: Modified Christian d'Heureuse's script to be used to stop / start 
+#		the SecureTransport 5.1 Antivirus Service (McAfee Engine)
+#		Rewrote the getServiceFunction to work with the ST AV service
+#		Modified the stop and start functions
+#
+# To Do:
+#	1) Modify the script to forcibly kill the ST AV service if a graceful stop fails
+#
+
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# VARIABLES
+appBinDir="/opt/Axway/RemoteAntivirusServer/bin/"	# location of the application / service 
+maxShutdownTime=15                          		# maximum number of seconds to wait for the daemon to terminate normally
+													# currently not used but could be used to forcibly kill service if stop script does not work
+serviceName="ST RemoteAntivirus Service"			# The name of the service
+serviceUser="axwayav"                       		# OS user name for the service
+serviceGroup="axwayav"                      		# OS group name for the service
+CONFIGFILE="/etc/sysconfig/stavserver.config"	# Configuration file containing value for start/stop script switches
+
+# FUNCTIONS
+
+function getPort
+{
+        XPORT=`grep port  $CONFIGFILE | grep -v "#" | cut -d"=" -f2`
+        echo "$XPORT"
+}
+
+function getAddrs
+{
+        XADDRS=`grep allowedaddresses  $CONFIGFILE | grep -v "#" | cut -d"=" -f2`
+        echo "$XADDRS"
+}
+
+function getServicePID
+{
+	procfound=`pgrep -l -f /opt/Axway/RemoteAntivirusServer/lib/servlet-api.jar`
+	PFRETVAL=$?
+	pid=`pgrep -l -f /opt/Axway/RemoteAntivirusServer/lib/servlet-api.jar | cut -d" " -f1`
+    	if [[ $PFRETVAL -eq 0 ]]; then
+        	#echo $pid is already running!
+        	return 0
+    	fi
+    	return 1
+}
+
+
+function startSTAVService
+{
+	getServicePID
+	if [[ $? -eq 0 ]]; then echo -n "$serviceName is already running"; echo ""; RETVAL=0; return 0; fi
+
+	PORT=$(getPort)
+	ALLOWEDADDRS=$(getAddrs)
+
+	echo -n "Starting SecureTransport AV Server Service on  port $PORT and with the allowed addresses $ALLOWEDADDRS: "
+	
+	cd $appBinDir
+	if [[ $? -ne 0 ]]; then RETVAL=1; echo "failed"; return 1; fi
+	
+	
+	cmd="./RemoteAntivirusServerService.sh --port=$PORT --allowedaddresses=$ALLOWEDADDRS"
+	su -m $serviceUser -c "$cmd"
+	
+	if [[ $? -ne 0 ]]; then RETVAL=1; echo "failed"; return 1; fi
+	sleep 8 # sleep for 8 secs since sometimes it takes a while for the service to startup
+	
+	echo "started PID=$pid"
+	RETVAL=0
+	return 0
+}
+
+function stopSTAVService
+{
+	getServicePID
+  	if [[ $? -ne 0 ]]; then echo -n "$serviceName is not running, nothing to do"; RETVAL=0; echo ""; return 0; fi
+	
+	echo -n "Shutting down SecureTransport AV Server Service (this may take some time): "
+	echo ""
+    
+	cd $appBinDir
+    	if [[ $? -ne 0 ]]; then RETVAL=1; echo "failed"; return 1; fi
+        
+	PORT=$(getPort)
+	cmd="./StopRemoteAntivirusServer.sh --port=$PORT"
+    	su -m $serviceUser -c "$cmd" || return 1
+	
+	if [[ $? -ne 0 ]]; then RETVAL=1; echo "failed"; return 1; fi
+    
+	echo "stopped PID=$pid"
+	RETVAL=0
+	return 0
+}
+
+function checkServiceStatus 
+{
+   	echo -n "Checking for $serviceName: "
+   	getServicePID
+   	if [[ $? -eq 0 ]]; then
+    		echo "running PID=$pid"
+    		RETVAL=0
+   	else
+    		echo "stopped"
+    		RETVAL=3
+   	fi
+   	return 0; 
+}
+
+function main 
+{
+	RETVAL=0
+	case "$1" in 
+		start)
+			startSTAVService
+		;;
+		stop)
+			stopSTAVService
+		;;
+		status)
+			checkServiceStatus
+		;;
+		restart|reload|condrestart)
+			stop
+			sleep 8
+			start
+		;;
+		*)
+			echo "Usage: $0 {start|stop|status|restart|reload}"
+			exit 1
+		;;
+	esac
+	exit $RETVAL
+}       
+
+main $1
+
