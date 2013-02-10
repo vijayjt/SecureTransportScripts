@@ -87,67 +87,67 @@ Function get-AdminPassConfig()
 Function Run-MySQLQuery 
 {
 
-    Param(
-        [Parameter(
-            Mandatory = $true,
-            ParameterSetName = '',
-            ValueFromPipeline = $true)]
-            [string]$query,   
-        [Parameter(
-            Mandatory = $true,
-            ParameterSetName = '',
-            ValueFromPipeline = $true)]
-            [string]$connectionString
-        )
-    Begin 
+ï¿½ï¿½ï¿½ï¿½Param(
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[Parameter(
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Mandatory = $true,
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ParameterSetName = '',
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ValueFromPipeline = $true)]
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[string]$query,ï¿½ï¿½ 
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[Parameter(
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Mandatory = $true,
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ParameterSetName = '',
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ValueFromPipeline = $true)]
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[string]$connectionString
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
+ï¿½ï¿½ï¿½ï¿½Begin 
     {
-        Write-Debug "Starting Begin Section"     
-    }
-    Process 
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Write-Debug "Starting Begin Section"ï¿½ï¿½ï¿½ï¿½ï¿½
+ï¿½ï¿½ï¿½ï¿½}
+ï¿½ï¿½ï¿½ï¿½Process 
     {
-        Write-Debug "Starting Process Section"
-        try 
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Write-Debug "Starting Process Section"
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½try 
         {
-            # load MySQL driver and create connection
-            Write-Debug "Create Database Connection"
-            # You could also could use a direct Link to the DLL File the path assumes x86 system and the system has 
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½# load MySQL driver and create connection
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Write-Debug "Create Database Connection"
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½# You could also could use a direct Link to the DLL File the path assumes x86 system and the system has 
             # a version of .NET framework lower than 4.0 if the system is running .NET Framework 4.0 repalce v2.0 with v4.0 in the path
-            # $mySQLDataDLL = "C:\Program Files\MySQL\MySQL Connector Net 6.5.4\Assemblies\v2.0\MySql.Data.dll"
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½# $mySQLDataDLL = "C:\Program Files\MySQL\MySQL Connector Net 6.5.4\Assemblies\v2.0\MySql.Data.dll"
             # For x64 use
             # $mySQLDataDLL = "C:\Program Files (x86)\MySQL\MySQL Connector Net 6.5.4\Assemblies\v2.0\MySql.Data.dll"
-            # [void][system.reflection.Assembly]::LoadFrom($mySQLDataDLL)
-            [void][System.Reflection.Assembly]::LoadWithPartialName("MySql.Data")
-            $connection = New-Object MySql.Data.MySqlClient.MySqlConnection
-            $connection.ConnectionString = $ConnectionString
-            Write-Debug "Open Database Connection"
-            $connection.Open()
-             
-            # Run MySQL Query
-            Write-Debug "Run MySQL Query $query"
-            $command = New-Object MySql.Data.MySqlClient.MySqlCommand($query, $connection)
-            $dataAdapter = New-Object MySql.Data.MySqlClient.MySqlDataAdapter($command)
-            $dataSet = New-Object System.Data.DataSet
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½# [void][system.reflection.Assembly]::LoadFrom($mySQLDataDLL)
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[void][System.Reflection.Assembly]::LoadWithPartialName("MySql.Data")
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½$connection = New-Object MySql.Data.MySqlClient.MySqlConnection
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½$connection.ConnectionString = $ConnectionString
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Write-Debug "Open Database Connection"
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½$connection.Open()
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½# Run MySQL Query
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Write-Debug "Run MySQL Query $query"
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½$command = New-Object MySql.Data.MySqlClient.MySqlCommand($query, $connection)
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½$dataAdapter = New-Object MySql.Data.MySqlClient.MySqlDataAdapter($command)
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½$dataSet = New-Object System.Data.DataSet
             $dataAdapter.Fill($DataSet) | Out-Null
             return $DataSet.Tables[0]
-            #$recordCount = $dataAdapter.Fill($dataSet, "data") | Out-Null
-            #return $dataSet.Tables["data"] | Format-Table
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½#$recordCount = $dataAdapter.Fill($dataSet, "data") | Out-Null
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½#return $dataSet.Tables["data"] | Format-Table
 
-        }       
-        catch 
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½}ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½catch 
         {
-            #Write-Output "Could not run MySQL Query ( $query )" $Error[0]
-			Write-Host "Could not run MySQL Query" $Error[0]    
-        }   
-        Finally 
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½#Write-Output "Could not run MySQL Query ( $query )" $Error[0]
+			Write-Host "Could not run MySQL Query" $Error[0]ï¿½ï¿½ï¿½ 
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½}ï¿½ï¿½ 
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Finally 
         {
-            Write-Debug "Close Connection"
-            $connection.Close()
-        }
-    }
-    End 
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Write-Debug "Close Connection"
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½$connection.Close()
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½}
+ï¿½ï¿½ï¿½ï¿½}
+ï¿½ï¿½ï¿½ï¿½End 
     {
-        Write-Debug "Starting End Section"
-    }
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Write-Debug "Starting End Section"
+ï¿½ï¿½ï¿½ï¿½}
 } # END FUNCTION Run-MySQLQuery
 
 
@@ -214,7 +214,7 @@ function notify-User ($object)
 
 function send-Report()
 {
-	$mailMessage = "This is a notification from the NS&I Managed File Transfer Service. Please find attached a HTML report of the accounts on the SecureTransport Server $servername"
+	$mailMessage = "This is a notification from SecureTransporte. Please find attached a HTML report of the accounts on the SecureTransport Server $servername"
 	$mailSubject = "SecureTransport: Password Expiry Notification"
 	$mailTo = "audit@acme.com"
 	$mailFrom = "securetransport@acme.com"	
@@ -289,7 +289,7 @@ function get-DisabledAccounts()
 		$ObjProps = @{'Name'='no users found';
 			'Email'='-';
 			'Disabled'='-';}
-		$disabled_user_accounts_obj = New-Object –TypeName PSObject –Prop $ObjProps
+		$disabled_user_accounts_obj = New-Object ï¿½TypeName PSObject ï¿½Prop $ObjProps
 		$TempHash += $disabled_user_accounts_obj
 		return $TempHash
 	}
@@ -306,7 +306,7 @@ function get-DisabledAccounts()
 		$ObjProps = @{'Name'=$row.name;
 			'Email'=$row.email;
 			'Disabled'=$UserAccountStatus;}
-		$disabled_user_accounts_obj = New-Object –TypeName PSObject –Prop $ObjProps
+		$disabled_user_accounts_obj = New-Object ï¿½TypeName PSObject ï¿½Prop $ObjProps
 		$TempHash += $disabled_user_accounts_obj
 		
 	}
@@ -325,7 +325,7 @@ function get-UnusedAccounts()
 	{
 		$ObjProps = @{'Name'='no users found';
 			'Email'='-';}
-		$unused_user_accounts_obj = New-Object –TypeName PSObject –Prop $ObjProps
+		$unused_user_accounts_obj = New-Object ï¿½TypeName PSObject ï¿½Prop $ObjProps
 		$TempHash += $unused_user_accounts_obj
 		return $TempHash
 	}
@@ -336,7 +336,7 @@ function get-UnusedAccounts()
 		
 		$ObjProps = @{'Name'=$row.LoginName;
 			'Email'=$email;}
-		$unused_user_accounts_obj = New-Object –TypeName PSObject –Prop $ObjProps
+		$unused_user_accounts_obj = New-Object ï¿½TypeName PSObject ï¿½Prop $ObjProps
 		$TempHash += $unused_user_accounts_obj
 		Write-Verbose "User $($row.LoginName) has no last login date - it has never been used"
 	}
@@ -355,7 +355,7 @@ function get-UsrAccountsWithNoPasswordExpiry()
 	{
 		$ObjProps = @{'Name'='no users found';
 			'Email'='-';}
-		$no_passwd_expiry_user_accounts_obj = New-Object –TypeName PSObject –Prop $ObjProps
+		$no_passwd_expiry_user_accounts_obj = New-Object ï¿½TypeName PSObject ï¿½Prop $ObjProps
 		$TempHash += $no_passwd_expiry_user_accounts_obj
 		return $TempHash
 	}
@@ -366,7 +366,7 @@ function get-UsrAccountsWithNoPasswordExpiry()
 		
 		$ObjProps = @{'Name'=$row.LoginName;
 			'Email'=$email;}
-		$no_passwd_expiry_user_accounts_obj = New-Object –TypeName PSObject –Prop $ObjProps
+		$no_passwd_expiry_user_accounts_obj = New-Object ï¿½TypeName PSObject ï¿½Prop $ObjProps
 		$TempHash += $no_passwd_expiry_user_accounts_obj
 		Write-Verbose "User $($row.LoginName) has no password expiry date set"
 	}
@@ -387,7 +387,7 @@ function get-AccountsNotUsedinXDays($days)
 		$ObjProps = @{'Name'='no users found';
 			'Email'='-';
 			'LastLogin'='-';}
-		$no_login_in_x_days_user_accounts_obj = New-Object –TypeName PSObject –Prop $ObjProps
+		$no_login_in_x_days_user_accounts_obj = New-Object ï¿½TypeName PSObject ï¿½Prop $ObjProps
 		$TempHash += $no_login_in_x_days_user_accounts_obj
 		return $TempHash
 	}
@@ -399,7 +399,7 @@ function get-AccountsNotUsedinXDays($days)
 		$ObjProps = @{'Name'=$row.LoginName;
 			'Email'=$email;
 			'LastLogin'=$row.LastLogin;}
-		$no_login_in_x_days_user_accounts_obj = New-Object –TypeName PSObject –Prop $ObjProps
+		$no_login_in_x_days_user_accounts_obj = New-Object ï¿½TypeName PSObject ï¿½Prop $ObjProps
 		$TempHash += $no_login_in_x_days_user_accounts_obj
 		Write-Verbose "User $($row.LoginName) has not been used in $days days"
 	}
@@ -420,7 +420,7 @@ function get-ExpiringUserAccounts()
 						'Email'='-';
 						'LastLogin'='-';
 						'Days to Password Expiry'='-'}
-		$expiring_passwd_obj = New-Object –TypeName PSObject –Prop $ObjProps
+		$expiring_passwd_obj = New-Object ï¿½TypeName PSObject ï¿½Prop $ObjProps
 		$TempHash += $expiring_passwd_obj
 		return $TempHash
 	}
@@ -453,7 +453,7 @@ function get-ExpiringUserAccounts()
 						'Email'=$mail;
 						'LastLogin'=$LastLoginDate;
 						'Days to Password Expiry'=$days_to_expiry}
-					$expiring_passwd_obj = New-Object –TypeName PSObject –Prop $ObjProps
+					$expiring_passwd_obj = New-Object ï¿½TypeName PSObject ï¿½Prop $ObjProps
 					$TempHash += $expiring_passwd_obj
 					Write-Verbose "User $($row.LoginName), password is expiring in: $days_to_expiry days"
 					
@@ -481,7 +481,7 @@ function get-AdminAccStatus()
 				   'Account Status'='-';
 				   'Password Expires in _ Days'='-';
 				   }
-		$account_obj = New-Object –TypeName PSObject –Prop $props
+		$account_obj = New-Object ï¿½TypeName PSObject ï¿½Prop $props
 		$TempHash += $account_obj
 		return $TempHash
 	}
@@ -548,7 +548,7 @@ function get-AdminAccStatus()
 				   'Account Status'=$AccountStatus;
 				   'Password Expires in _ Days'=$DaysToExpiry;
 				   }
-		$account_obj = New-Object –TypeName PSObject –Prop $props
+		$account_obj = New-Object ï¿½TypeName PSObject ï¿½Prop $props
 				
 		$TempHash += $account_obj     
 		
