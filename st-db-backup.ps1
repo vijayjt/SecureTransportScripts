@@ -67,9 +67,10 @@ if ( (Test-Path -Path $backupstorefolder) -ne $True -or (Test-Path -Path $latest
 
 function get-BackupSize ($filepath)
 {
-    $sizeInBytes = (Get-ChildItem $filepath).Length
+    $sizeInBytes = 0
+    Get-ChildItem $filepath -Recurse | % { $sizeInBytes += $_.Length }
 
-	switch ($sizeInBytes)
+    switch ($sizeInBytes)
     {
         {$sizeInBytes -ge 1TB} {"{0:n$sigDigits}" -f ($sizeInBytes/1TB) + " TB" ; break}
         {$sizeInBytes -ge 1GB} {"{0:n$sigDigits}" -f ($sizeInBytes/1GB) + " GB" ; break}
